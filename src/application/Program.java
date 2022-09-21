@@ -20,7 +20,7 @@ public class Program {
 		
 		try {
 			conn = DB.getConnection();
-			
+			/*
 			st = conn.prepareStatement(
 					"INSERT INTO seller "
 					+ "(Name, Email, BirthDate, BaseSalary, DepartmentId)"
@@ -33,7 +33,10 @@ public class Program {
 			st.setDate(3, new java.sql.Date(sdf.parse("21/08/1996").getTime()));
 			st.setDouble(4, 9546.21);
 			st.setInt(5, 1);
+			*/
 			
+			st = conn.prepareStatement("insert into department (Name) values ('IT'),('Product')",
+					Statement.RETURN_GENERATED_KEYS);
 			Integer rowsAffected = st.executeUpdate();
 			
 			if(rowsAffected > 0) {
@@ -48,9 +51,6 @@ public class Program {
 			
 		}
 		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		catch(ParseException e) {
 			e.printStackTrace();
 		}
 		finally {
