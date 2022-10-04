@@ -14,41 +14,23 @@ public class Program {
 
 	public static void main(String[] args) {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Connection conn = null;
 		PreparedStatement st = null;
-		
 		try {
 			conn = DB.getConnection();
-			/*
+			
 			st = conn.prepareStatement(
-					"INSERT INTO seller "
-					+ "(Name, Email, BirthDate, BaseSalary, DepartmentId)"
-					+ "VALUES "
-					+ "(?, ?, ?, ?, ?)",
-					Statement.RETURN_GENERATED_KEYS);
+					"UPDATE seller "
+					+ "SET BaseSalary = BaseSalary + ? "
+					+ "WHERE"
+					+ "(DepartmentId = ?)");
 			
-			st.setString(1, "Graziela Barros");
-			st.setString(2, "graziela.siqueirabarros@hotmail.com");
-			st.setDate(3, new java.sql.Date(sdf.parse("21/08/1996").getTime()));
-			st.setDouble(4, 9546.21);
-			st.setInt(5, 1);
-			*/
+			st.setDouble(1, 200.00);
+			st.setInt(2, 2);
+		
+			int rowsAffected = st.executeUpdate();
 			
-			st = conn.prepareStatement("insert into department (Name) values ('IT'),('Product')",
-					Statement.RETURN_GENERATED_KEYS);
-			Integer rowsAffected = st.executeUpdate();
-			
-			if(rowsAffected > 0) {
-				ResultSet rs = st.getGeneratedKeys();
-				while(rs.next()) {
-					int id = rs.getInt(1);
-					System.out.println("Done! Id = " + id);
-				}
-			} else {
-				System.out.println("No rows affected!");
-			}
-			
+			System.out.println("Done! Rows affected: " + rowsAffected);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
